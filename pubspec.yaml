@@ -1,6 +1,8 @@
 name: apple_pencil_double_tap
 description: Flutter plugin to detect apple pencil double tap.
-version: 0.0.1
+version: 0.0.2
+repository: https://github.com/Code-Growers/apple_pencil_double_tap
+issue_tracker: https://github.com/Code-Growers/apple_pencil_double_tap/issues
 homepage: https://codegrowers.tech
 
 environment:
@@ -10,12 +12,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  plugin_platform_interface: ^2.0.2
+  plugin_platform_interface: ^2.1.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
 
 flutter:
   plugin:

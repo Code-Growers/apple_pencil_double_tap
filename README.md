@@ -26,7 +26,7 @@ ApplePencilDoubleTap().listen((PreferredDoubleTapAction preferedAction) {
 
 ## Info
 
-apple_pencil_double_tap version: 0.0.1
+apple_pencil_double_tap version: 0.0.2
 
 ## License
 
