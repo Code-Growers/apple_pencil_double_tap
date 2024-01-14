@@ -1,5 +1,5 @@
 name: apple_pencil_double_tap
-description: Flutter plugin to detect apple pencil double tap.
+description: Handy flutter plugin which simplifies apple pencil double tap detection.
 version: 0.0.2
 repository: https://github.com/Code-Growers/apple_pencil_double_tap
 issue_tracker: https://github.com/Code-Growers/apple_pencil_double_tap/issues
