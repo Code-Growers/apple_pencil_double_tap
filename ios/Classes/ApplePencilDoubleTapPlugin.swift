@@ -9,6 +9,61 @@ class PencilInteractionDelegate: NSObject, UIPencilInteractionDelegate {
         self.pencilChannel = channel
     }
     
+    @available(iOS 17.5, *)
+    public func pencilInteraction(_ interaction: UIPencilInteraction, didReceiveTap tap: UIPencilInteraction.Tap) {
+    
+        let actionType = switch(UIPencilInteraction.preferredTapAction){
+            case .ignore: "ignore"
+            case .switchEraser: "switchEraser"
+            case .switchPrevious: "switchPrevious"
+            case .showColorPalette: "showColorPalette"
+            case .showInkAttributes: "showInkAttributes"
+            case .showContextualPalette: "showContextualPalette"
+            case .runSystemShortcut: "runSystemShortcut"
+            default: "unknown"
+        }
+        let data: [String: Any?] = [
+            "prefferedTapAction" : actionType,
+            "locationX": tap.hoverPose?.location.x,
+            "locationY": tap.hoverPose?.location.y,
+            "zOffset": tap.hoverPose?.zOffset,
+        ];
+        if (pencilChannel != nil) {
+            pencilChannel!.invokeMethod("onPencilDoubleTapV2", arguments: data)
+        }
+    }
+    
+    @available(iOS 17.5, *)
+    public func pencilInteraction(_ interaction: UIPencilInteraction, didReceiveSqueeze squeeze: UIPencilInteraction.Squeeze) {
+        let actionType = switch(UIPencilInteraction.preferredTapAction){
+            case .ignore: "ignore"
+            case .switchEraser: "switchEraser"
+            case .switchPrevious: "switchPrevious"
+            case .showColorPalette: "showColorPalette"
+            case .showInkAttributes: "showInkAttributes"
+            case .showContextualPalette: "showContextualPalette"
+            case .runSystemShortcut: "runSystemShortcut"
+            default: "unknown"
+        }
+        let phase = switch (squeeze.phase){
+            case .began: "began"
+            case .changed: "changed"
+            case .ended: "ended"
+            case .cancelled: "cancelled"
+            default: "unknown"
+        }
+        let data: [String: Any?] = [
+            "prefferedTapAction" : actionType,
+            "squeezePhase" : phase,
+            "locationX": squeeze.hoverPose?.location.x,
+            "locationY": squeeze.hoverPose?.location.y,
+            "zOffset": squeeze.hoverPose?.zOffset,
+        ];
+        if (pencilChannel != nil) {
+            pencilChannel!.invokeMethod("onPencilSqueeze", arguments: data)
+        }
+    }
+    
     public func pencilInteractionDidTap(_ interaction: UIPencilInteraction) {
         if (pencilChannel != nil) {
             if UIPencilInteraction.preferredTapAction == .switchPrevious {
