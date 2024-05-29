@@ -1,31 +1,51 @@
+import 'package:apple_pencil_double_tap/entities/preffered_action.dart';
+import 'package:apple_pencil_double_tap/entities/squeeze_action.dart';
+import 'package:apple_pencil_double_tap/entities/tap_action.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import 'prefered_double_tap_action.dart';
 import 'apple_pencil_double_tap_platform_interface.dart';
 
 class MethodChannelApplePencilDoubleTap extends ApplePencilDoubleTapPlatform {
   @visibleForTesting
-  final methodChannel = const MethodChannel(
-      'tech.codegrowers.applepencildoubletap/apple_pencil_double_tap_plugin');
+  final methodChannel = const MethodChannel('tech.codegrowers.applepencildoubletap/apple_pencil_double_tap_plugin');
 
   @override
-  void listen(Function(PreferredDoubleTapAction) callback) {
+  void listen({
+    Function(PreferredAction p1)? v1Callback,
+    Function(TapAction p1)? onTapAction,
+    Function(SqueezeAction p1)? onSqueeze,
+    Function(dynamic e)? onError,
+  }) {
     methodChannel.setMethodCallHandler((call) async {
-      if (call.method == 'onPencilDoubleTap') {
-        switch (call.arguments?.toString()) {
-          case 'switchPrevious':
-            callback(PreferredDoubleTapAction.switchPrevious);
-          case 'showColorPalette':
-            callback(PreferredDoubleTapAction.showColorPalette);
-          case 'showInkAttributes':
-            callback(PreferredDoubleTapAction.showInkAttributes);
-          case 'ignore':
-            callback(PreferredDoubleTapAction.ignore);
-          case 'switchEraser':
-            callback(PreferredDoubleTapAction.switchEraser);
-          default:
-            callback(PreferredDoubleTapAction.none);
+      try {
+        if (call.method == 'onPencilDoubleTap') {
+          switch (call.arguments?.toString()) {
+            case 'switchPrevious':
+              v1Callback?.call(PreferredAction.switchPrevious);
+            case 'showColorPalette':
+              v1Callback?.call(PreferredAction.showColorPalette);
+            case 'showInkAttributes':
+              v1Callback?.call(PreferredAction.showInkAttributes);
+            case 'ignore':
+              v1Callback?.call(PreferredAction.ignore);
+            case 'switchEraser':
+              v1Callback?.call(PreferredAction.switchEraser);
+            default:
+              v1Callback?.call(PreferredAction.unknown);
+          }
+        }
+        if (call.method == "onPencilDoubleTapV2") {
+          onTapAction?.call(TapAction.fromJson(call.arguments));
+        }
+        if (call.method == "onPencilSqueeze") {
+          onSqueeze?.call(SqueezeAction.fromJson(call.arguments));
+        }
+      } catch (e) {
+        if (onError != null) {
+          onError.call(e);
+        } else {
+          rethrow;
         }
       }
     });

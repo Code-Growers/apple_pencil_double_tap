@@ -1,3 +1,4 @@
+import 'package:apple_pencil_double_tap/entities/preffered_action.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -24,12 +25,20 @@ class _MyAppState extends State<MyApp> {
   }
 
   void initApplePencilListener() {
-    _applePencilDoubleTapPlugin
-        .listen((PreferredDoubleTapAction preferedAction) {
-      if (kDebugMode) {
+    _applePencilDoubleTapPlugin.listen(
+      v1Callback: (PreferredAction preferedAction) {
         print('Double tap detected. Prefered user action: $preferedAction');
-      }
-    });
+      },
+      onTapAction: (TapAction action) {
+        print('TapAction: $action');
+      },
+      onSqueeze: (SqueezeAction action) {
+        print('SqueezeAction: $action');
+      },
+      onError: (e) {
+        print('Error: $e');
+      },
+    );
   }
 
   @override
@@ -47,9 +56,7 @@ class _MyAppState extends State<MyApp> {
         ),
         body: const Center(
           child: TextField(
-            decoration: InputDecoration(
-                hintText:
-                    "Use apple pencil to write something. Double tap and check logs"),
+            decoration: InputDecoration(hintText: "Use apple pencil to write something. Double tap and check logs"),
           ),
         ),
       ),

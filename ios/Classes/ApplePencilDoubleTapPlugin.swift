@@ -23,7 +23,7 @@ class PencilInteractionDelegate: NSObject, UIPencilInteractionDelegate {
             default: "unknown"
         }
         let data: [String: Any?] = [
-            "prefferedTapAction" : actionType,
+            "preferredAction" : actionType,
             "locationX": tap.hoverPose?.location.x,
             "locationY": tap.hoverPose?.location.y,
             "zOffset": tap.hoverPose?.zOffset,
@@ -35,7 +35,7 @@ class PencilInteractionDelegate: NSObject, UIPencilInteractionDelegate {
     
     @available(iOS 17.5, *)
     public func pencilInteraction(_ interaction: UIPencilInteraction, didReceiveSqueeze squeeze: UIPencilInteraction.Squeeze) {
-        let actionType = switch(UIPencilInteraction.preferredTapAction){
+        let actionType = switch(UIPencilInteraction.preferredSqueezeAction){
             case .ignore: "ignore"
             case .switchEraser: "switchEraser"
             case .switchPrevious: "switchPrevious"
@@ -53,7 +53,7 @@ class PencilInteractionDelegate: NSObject, UIPencilInteractionDelegate {
             default: "unknown"
         }
         let data: [String: Any?] = [
-            "prefferedTapAction" : actionType,
+            "preferredAction" : actionType,
             "squeezePhase" : phase,
             "locationX": squeeze.hoverPose?.location.x,
             "locationY": squeeze.hoverPose?.location.y,
