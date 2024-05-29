@@ -13,9 +13,9 @@ export 'package:apple_pencil_double_tap/entities/tap_action.dart';
 
 class ApplePencilDoubleTap {
   void listen({
-    Function(PreferredAction p1)? v1Callback,
-    Function(TapAction p1)? onTapAction,
-    Function(SqueezeAction p1)? onSqueeze,
+    Function(PreferredAction action)? v1Callback,
+    Function(TapAction action)? onTapAction,
+    Function(SqueezeAction action)? onSqueeze,
     Function(dynamic e)? onError,
   }) {
     if (Platform.isIOS) {
