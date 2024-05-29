@@ -1,20 +1,14 @@
-import 'package:apple_pencil_double_tap/entities/preffered_action.dart';
-import 'package:apple_pencil_double_tap/entities/squeeze_phase.dart';
+import 'package:apple_pencil_double_tap/apple_pencil_double_tap.dart';
 
-class SqueezeAction {
-  final PreferredAction preferredAction;
+class SqueezeAction extends TapAction {
   final SqueezePhase squeezePhase;
-  /// values between 0.0 - 1.0
-  final double? zOffset;
-  final double? locationX;
-  final double? locationY;
 
   SqueezeAction({
-    required this.preferredAction,
+    required super.preferredAction,
     required this.squeezePhase,
-    required this.zOffset,
-    required this.locationX,
-    required this.locationY,
+    required super.zOffset,
+    required super.locationX,
+    required super.locationY,
   });
 
 
