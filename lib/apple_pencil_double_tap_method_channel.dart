@@ -1,10 +1,9 @@
-import 'package:apple_pencil_double_tap/entities/preffered_action.dart';
+import 'package:apple_pencil_double_tap/apple_pencil_double_tap_platform_interface.dart';
+import 'package:apple_pencil_double_tap/entities/preferred_action.dart';
 import 'package:apple_pencil_double_tap/entities/squeeze_action.dart';
 import 'package:apple_pencil_double_tap/entities/tap_action.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
-import 'apple_pencil_double_tap_platform_interface.dart';
 
 class MethodChannelApplePencilDoubleTap extends ApplePencilDoubleTapPlatform {
   @visibleForTesting

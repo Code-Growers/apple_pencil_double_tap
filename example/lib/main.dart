@@ -1,8 +1,6 @@
-import 'package:apple_pencil_double_tap/entities/preffered_action.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-
 import 'package:apple_pencil_double_tap/apple_pencil_double_tap.dart';
+import 'package:apple_pencil_double_tap/entities/preferred_action.dart';
+import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());

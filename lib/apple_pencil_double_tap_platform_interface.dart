@@ -1,10 +1,8 @@
-import 'package:apple_pencil_double_tap/entities/preffered_action.dart';
+import 'package:apple_pencil_double_tap/apple_pencil_double_tap_method_channel.dart';
+import 'package:apple_pencil_double_tap/entities/preferred_action.dart';
 import 'package:apple_pencil_double_tap/entities/squeeze_action.dart';
-import 'package:apple_pencil_double_tap/entities/squeeze_phase.dart';
 import 'package:apple_pencil_double_tap/entities/tap_action.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
-import 'apple_pencil_double_tap_method_channel.dart';
 
 abstract class ApplePencilDoubleTapPlatform extends PlatformInterface {
   ApplePencilDoubleTapPlatform() : super(token: _token);

@@ -1,4 +1,5 @@
 import 'package:apple_pencil_double_tap/apple_pencil_double_tap.dart';
+import 'package:apple_pencil_double_tap/entities/preferred_action.dart';
 
 class SqueezeAction extends TapAction {
   final SqueezePhase squeezePhase;

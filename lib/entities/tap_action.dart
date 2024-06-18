@@ -1,4 +1,4 @@
-import 'package:apple_pencil_double_tap/entities/preffered_action.dart';
+import 'package:apple_pencil_double_tap/entities/preferred_action.dart';
 
 class TapAction {
   final PreferredAction preferredAction;
