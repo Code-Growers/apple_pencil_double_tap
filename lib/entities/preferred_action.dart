@@ -9,7 +9,7 @@ enum PreferredAction {
   unknown;
 
   static PreferredAction fromString(String name) {
-    return switch(name){
+    return switch (name) {
       "ignore" => PreferredAction.ignore,
       "switchEraser" => PreferredAction.switchEraser,
       "switchPrevious" => PreferredAction.switchPrevious,
@@ -21,4 +21,3 @@ enum PreferredAction {
     };
   }
 }
-

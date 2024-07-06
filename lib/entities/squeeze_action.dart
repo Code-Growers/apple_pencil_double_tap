@@ -12,24 +12,24 @@ class SqueezeAction extends TapAction {
     required super.locationY,
   });
 
-
   factory SqueezeAction.fromJson(Map<Object?, Object?> json) => SqueezeAction(
-    preferredAction: PreferredAction.fromString(json["preferredAction"]!.toString()),
-    squeezePhase: SqueezePhase.fromString(json["squeezePhase"]!.toString()),
-    zOffset: json["zOffset"] as double?,
-    locationY: json["locationY"] as double?,
-    locationX: json["locationX"] as double?,
-  );
+        preferredAction:
+            PreferredAction.fromString(json["preferredAction"]!.toString()),
+        squeezePhase: SqueezePhase.fromString(json["squeezePhase"]!.toString()),
+        zOffset: json["zOffset"] as double?,
+        locationY: json["locationY"] as double?,
+        locationX: json["locationX"] as double?,
+      );
 
+  @override
   Map<String, dynamic> toJson() => {
-    "preferredAction": preferredAction,
-    "squeezePhase": squeezePhase,
-    "zOffset": zOffset,
-    "locationY": locationY,
-    "locationX": locationX,
-  };
+        "preferredAction": preferredAction,
+        "squeezePhase": squeezePhase,
+        "zOffset": zOffset,
+        "locationY": locationY,
+        "locationX": locationX,
+      };
 
   @override
   String toString() => toJson().toString();
-
 }

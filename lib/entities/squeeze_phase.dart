@@ -6,7 +6,7 @@ enum SqueezePhase {
   unknown;
 
   static SqueezePhase fromString(String name) {
-    return switch(name){
+    return switch (name) {
       "began" => SqueezePhase.began,
       "changed" => SqueezePhase.changed,
       "ended" => SqueezePhase.ended,

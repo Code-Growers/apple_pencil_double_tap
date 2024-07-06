@@ -7,7 +7,8 @@ import 'package:flutter/services.dart';
 
 class MethodChannelApplePencilDoubleTap extends ApplePencilDoubleTapPlatform {
   @visibleForTesting
-  final methodChannel = const MethodChannel('tech.codegrowers.applepencildoubletap/apple_pencil_double_tap_plugin');
+  final methodChannel = const MethodChannel(
+      'tech.codegrowers.applepencildoubletap/apple_pencil_double_tap_plugin');
 
   @override
   void listen({

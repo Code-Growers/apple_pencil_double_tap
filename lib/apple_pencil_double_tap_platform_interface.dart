@@ -9,7 +9,8 @@ abstract class ApplePencilDoubleTapPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static ApplePencilDoubleTapPlatform _instance = MethodChannelApplePencilDoubleTap();
+  static ApplePencilDoubleTapPlatform _instance =
+      MethodChannelApplePencilDoubleTap();
 
   static ApplePencilDoubleTapPlatform get instance => _instance;
 
