@@ -101,22 +101,41 @@ public class ApplePencilDoubleTapPlugin: NSObject, FlutterPlugin {
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: channelName, binaryMessenger: registrar.messenger())
-        
-        guard let viewController = UIApplication.shared.delegate?.window??.rootViewController else {
-            fatalError("rootViewController could not be located")
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let viewController = findRootViewController() {
+                pencilDelegate.setPencilChannel(channel: channel)
+                
+                let pencilInteraction = UIPencilInteraction()
+                pencilInteraction.delegate = pencilDelegate
+                viewController.view.addInteraction(pencilInteraction)
+            } else {
+                print("Root view controller is nil.")
+            }
         }
-        
-        pencilDelegate.setPencilChannel(channel: channel)
-        
-        let pencilInteraction = UIPencilInteraction()
-        pencilInteraction.delegate = pencilDelegate
-        viewController.view.addInteraction(pencilInteraction)
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
         default:
             result(FlutterMethodNotImplemented)
+        }
+    }
+
+    static func findRootViewController() -> UIViewController? {
+        if #available(iOS 13.0, *) {
+            let scenes = UIApplication.shared.connectedScenes
+            for scene in scenes {
+                if let windowScene = scene as? UIWindowScene {
+                    for window in windowScene.windows {
+                        if window.isKeyWindow {
+                            return window.rootViewController
+                        }
+                    }
+                }
+            }
+            return nil
+        } else {
+            return UIApplication.shared.keyWindow?.rootViewController
         }
     }
 }
