@@ -314,5 +314,207 @@ void main() {
       expect(action.toString(), isNotEmpty);
       expect(action.toString(), contains('squeezePhase'));
     });
+
+    test('can be created with null optional parameters', () {
+      final action = SqueezeAction(
+        preferredAction: PreferredAction.ignore,
+        squeezePhase: SqueezePhase.began,
+        zOffset: null,
+        locationX: null,
+        locationY: null,
+      );
+
+      expect(action.preferredAction, PreferredAction.ignore);
+      expect(action.squeezePhase, SqueezePhase.began);
+      expect(action.zOffset, isNull);
+      expect(action.locationX, isNull);
+      expect(action.locationY, isNull);
+    });
+
+    test('fromJson parses all squeeze phases correctly', () {
+      for (final phase in ['began', 'changed', 'ended', 'cancelled']) {
+        final json = <Object?, Object?>{
+          'preferredAction': 'ignore',
+          'squeezePhase': phase,
+          'zOffset': null,
+          'locationX': null,
+          'locationY': null,
+        };
+
+        final action = SqueezeAction.fromJson(json);
+        expect(action.squeezePhase, SqueezePhase.fromString(phase));
+      }
+    });
+
+    test('fromJson handles unknown squeeze phase', () {
+      final json = <Object?, Object?>{
+        'preferredAction': 'ignore',
+        'squeezePhase': 'invalid_phase',
+        'zOffset': null,
+        'locationX': null,
+        'locationY': null,
+      };
+
+      final action = SqueezeAction.fromJson(json);
+      expect(action.squeezePhase, SqueezePhase.unknown);
+    });
+
+    test('fromJson parses all preferred actions correctly', () {
+      final actions = [
+        'ignore',
+        'switchEraser',
+        'switchPrevious',
+        'showColorPalette',
+        'showInkAttributes',
+        'showContextualPalette',
+        'runSystemShortcut',
+      ];
+
+      for (final actionStr in actions) {
+        final json = <Object?, Object?>{
+          'preferredAction': actionStr,
+          'squeezePhase': 'ended',
+          'zOffset': null,
+          'locationX': null,
+          'locationY': null,
+        };
+
+        final action = SqueezeAction.fromJson(json);
+        expect(action.preferredAction, PreferredAction.fromString(actionStr));
+      }
+    });
+
+    test('squeeze lifecycle phases follow expected order', () {
+      final phases = [
+        SqueezePhase.began,
+        SqueezePhase.changed,
+        SqueezePhase.ended,
+      ];
+
+      for (var i = 0; i < phases.length; i++) {
+        final action = SqueezeAction(
+          preferredAction: PreferredAction.switchEraser,
+          squeezePhase: phases[i],
+          zOffset: 0.5,
+          locationX: 100.0,
+          locationY: 200.0,
+        );
+
+        expect(action.squeezePhase, phases[i]);
+      }
+    });
+
+    test('squeeze cancelled phase is valid', () {
+      final action = SqueezeAction(
+        preferredAction: PreferredAction.switchEraser,
+        squeezePhase: SqueezePhase.cancelled,
+        zOffset: 0.5,
+        locationX: 100.0,
+        locationY: 200.0,
+      );
+
+      expect(action.squeezePhase, SqueezePhase.cancelled);
+    });
+
+    test('hover pose values are within expected range', () {
+      final action = SqueezeAction(
+        preferredAction: PreferredAction.switchEraser,
+        squeezePhase: SqueezePhase.began,
+        zOffset: 0.5,
+        locationX: 100.0,
+        locationY: 200.0,
+      );
+
+      expect(action.zOffset, greaterThanOrEqualTo(0.0));
+      expect(action.zOffset, lessThanOrEqualTo(1.0));
+    });
+
+    test('inherits TapAction properties correctly', () {
+      final action = SqueezeAction(
+        preferredAction: PreferredAction.showColorPalette,
+        squeezePhase: SqueezePhase.ended,
+        zOffset: 0.3,
+        locationX: 50.0,
+        locationY: 75.0,
+      );
+
+      expect(action.preferredAction, PreferredAction.showColorPalette);
+      expect(action.zOffset, 0.3);
+      expect(action.locationX, 50.0);
+      expect(action.locationY, 75.0);
+    });
+  });
+
+  group('Squeeze integration scenarios', () {
+    test('simulates complete squeeze gesture lifecycle', () {
+      final squeezeEvents = <SqueezeAction>[];
+
+      squeezeEvents.add(
+        SqueezeAction(
+          preferredAction: PreferredAction.switchEraser,
+          squeezePhase: SqueezePhase.began,
+          zOffset: 0.5,
+          locationX: 100.0,
+          locationY: 200.0,
+        ),
+      );
+
+      for (var i = 0; i < 3; i++) {
+        squeezeEvents.add(
+          SqueezeAction(
+            preferredAction: PreferredAction.switchEraser,
+            squeezePhase: SqueezePhase.changed,
+            zOffset: 0.5 - (i * 0.1),
+            locationX: 100.0 + i,
+            locationY: 200.0 + i,
+          ),
+        );
+      }
+
+      squeezeEvents.add(
+        SqueezeAction(
+          preferredAction: PreferredAction.switchEraser,
+          squeezePhase: SqueezePhase.ended,
+          zOffset: 0.2,
+          locationX: 103.0,
+          locationY: 203.0,
+        ),
+      );
+
+      expect(squeezeEvents.first.squeezePhase, SqueezePhase.began);
+      expect(squeezeEvents.last.squeezePhase, SqueezePhase.ended);
+      expect(squeezeEvents.length, 5);
+
+      for (var i = 1; i < squeezeEvents.length - 1; i++) {
+        expect(squeezeEvents[i].squeezePhase, SqueezePhase.changed);
+      }
+    });
+
+    test('simulates cancelled squeeze gesture', () {
+      final squeezeEvents = <SqueezeAction>[];
+
+      squeezeEvents.add(
+        SqueezeAction(
+          preferredAction: PreferredAction.switchEraser,
+          squeezePhase: SqueezePhase.began,
+          zOffset: 0.5,
+          locationX: 100.0,
+          locationY: 200.0,
+        ),
+      );
+
+      squeezeEvents.add(
+        SqueezeAction(
+          preferredAction: PreferredAction.switchEraser,
+          squeezePhase: SqueezePhase.cancelled,
+          zOffset: null,
+          locationX: null,
+          locationY: null,
+        ),
+      );
+
+      expect(squeezeEvents.first.squeezePhase, SqueezePhase.began);
+      expect(squeezeEvents.last.squeezePhase, SqueezePhase.cancelled);
+    });
   });
 }
