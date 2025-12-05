@@ -12,6 +12,16 @@ In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 apple_pencil_double_tap: <latest_version>
 ```
 
+### Swift Package Manager
+
+This plugin supports both CocoaPods and Swift Package Manager for iOS integration.
+
+To use Swift Package Manager (available in Flutter 3.24.0+), you can enable it by running:
+
+```bash
+flutter config --enable-swift-package-manager
+```
+
 ## Usage
 
 You can use it very easily. For example:
@@ -40,12 +50,8 @@ ApplePencilDoubleTap().listen(
 
 ## Info
 
-apple_pencil_double_tap version: 0.0.2
+apple_pencil_double_tap version: 1.0.0
 
 ## License
 
 MIT
-
-## TODO
-
-- Integration tests
