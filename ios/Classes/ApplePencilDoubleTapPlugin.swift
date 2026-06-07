@@ -98,20 +98,38 @@ public class ApplePencilDoubleTapPlugin: NSObject, FlutterPlugin {
     static let channelName = "tech.codegrowers.applepencildoubletap/apple_pencil_double_tap_plugin"
     
     static let pencilDelegate = PencilInteractionDelegate()
+
+    private static var didAttachInteraction = false
+
+    private static var windowObserver: NSObjectProtocol?
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: channelName, binaryMessenger: registrar.messenger())
         if UIDevice.current.userInterfaceIdiom == .pad {
-            if let viewController = findRootViewController() {
-                pencilDelegate.setPencilChannel(channel: channel)
-                
-                let pencilInteraction = UIPencilInteraction()
-                pencilInteraction.delegate = pencilDelegate
-                viewController.view.addInteraction(pencilInteraction)
-            } else {
-                print("Root view controller is nil.")
+            pencilDelegate.setPencilChannel(channel: channel)
+            // A key window usually doesn't exist yet at registration time, so try
+            // to attach now and otherwise attach as soon as a window becomes key.
+            if !tryAttachPencilInteraction() {
+                windowObserver = NotificationCenter.default.addObserver(
+                    forName: UIWindow.didBecomeKeyNotification, object: nil, queue: .main
+                ) { _ in _ = tryAttachPencilInteraction() }
             }
         }
+    }
+
+    @discardableResult
+    static func tryAttachPencilInteraction() -> Bool {
+        if didAttachInteraction { return true }
+        guard let viewController = findRootViewController() else { return false }
+        didAttachInteraction = true
+        let pencilInteraction = UIPencilInteraction()
+        pencilInteraction.delegate = pencilDelegate
+        viewController.view.addInteraction(pencilInteraction)
+        if let observer = windowObserver {
+            NotificationCenter.default.removeObserver(observer)
+            windowObserver = nil
+        }
+        return true
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
