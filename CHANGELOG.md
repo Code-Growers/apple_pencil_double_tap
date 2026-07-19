@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Fix issues with newest flutter
+
 ## 1.0.1
 
 ### Added
