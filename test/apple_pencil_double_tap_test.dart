@@ -1,7 +1,6 @@
 import 'package:apple_pencil_double_tap/apple_pencil_double_tap.dart';
 import 'package:apple_pencil_double_tap/apple_pencil_double_tap_method_channel.dart';
 import 'package:apple_pencil_double_tap/apple_pencil_double_tap_platform_interface.dart';
-import 'package:apple_pencil_double_tap/entities/preferred_action.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 

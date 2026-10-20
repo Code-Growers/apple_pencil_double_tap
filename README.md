@@ -1,31 +1,46 @@
 # Apple Pencil Double Tap
 
-A Flutter plugin for detecting Apple Pencil interactions including **double-tap** and **squeeze** gestures.
+A Flutter plugin for **Apple Pencil double-tap and squeeze gestures** on compatible iPads, with iOS integration that also allows **iPhone Duo**. Gesture availability depends on the Apple Pencil model.
 
-Simple and easy to use plugin for [Apple Pencil interaction](https://developer.apple.com/documentation/uikit/uipencilinteraction) detection in any Flutter application.
+Receive native [UIKit Apple Pencil interactions](https://developer.apple.com/documentation/uikit/uipencilinteraction) through Dart callbacks in your Flutter iOS app.
 
 ## Features
 
-- Detect Apple Pencil double-tap gestures (Apple Pencil 2nd generation and later)
+- Detect Apple Pencil double-tap gestures (Apple Pencil 2nd generation or Apple Pencil Pro)
 - Detect Apple Pencil squeeze gestures (Apple Pencil Pro only)
-- Real-time event streaming with hover pose information
+- Gesture callbacks with hover pose information when available
 - Access user's preferred action settings from iOS Settings app
-- Support for iOS 12.1+ and iPadOS 12.1+
+- Native UIKit registration on iPad and iPhone, including iPhone Duo
 - Swift Package Manager support
+
+## Device and Apple Pencil compatibility
+
+| Device and Apple Pencil | Double-tap | Squeeze |
+| ----------------------- | ---------- | ------- |
+| Compatible iPad + Apple Pencil (2nd generation) | Yes | No |
+| Compatible iPad + Apple Pencil Pro | Yes | Yes, with iPadOS 17.5+ |
+| iPhone Duo + Apple Pencil (USB-C) | No | No |
+| Apple Pencil (1st generation) or Apple Pencil (USB-C) | No | No |
+
+The plugin no longer restricts `UIPencilInteraction` registration to the iPad device idiom. It can be included in iPhone Duo apps, but **this does not add double-tap or squeeze to Apple Pencil (USB-C)**. Apple's [iPhone Duo announcement](https://www.apple.com/newsroom/2026/09/apple-unveils-iphone-duo/) lists Apple Pencil (USB-C) support as coming later in 2026; that model has neither gesture. See Apple's [Pencil feature comparison](https://www.apple.com/apple-pencil/) for hardware capabilities.
+
+This package listens for UIKit gesture callbacks. It does not implement drawing, handwriting recognition, raw stylus input, or standalone hover tracking. No gesture callbacks are expected on hardware without double-tap or squeeze. iPhone Duo hardware has not been tested with this release.
 
 ## Requirements
 
-- iOS/iPadOS 12.1 or later
+- iOS/iPadOS 15.0 or later
 - Apple Pencil (2nd generation) for double-tap
 - **Apple Pencil Pro** for squeeze gesture (requires iPadOS 17.5+)
-- Flutter 3.38.0 or later
+- Dart 3.13.0 or later
+- Flutter 3.47.0 or later
+- Xcode 15.4 or later for the iOS 17.5 Pencil APIs; your Flutter version may require a newer Xcode
 
 ## Installation
 
 In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 
 ```yaml
-apple_pencil_double_tap: <latest_version>
+apple_pencil_double_tap: ^2.0.0
 ```
 
 Then run:
@@ -38,7 +53,7 @@ flutter pub get
 
 This plugin supports both CocoaPods and Swift Package Manager for iOS integration.
 
-To use Swift Package Manager (available in Flutter 3.24.0+), you can enable it by running:
+Swift Package Manager is enabled by default in current Flutter releases. If your local configuration has disabled it, enable it with:
 
 ```bash
 flutter config --enable-swift-package-manager
@@ -54,7 +69,7 @@ import 'package:apple_pencil_double_tap/apple_pencil_double_tap.dart';
 final applePencil = ApplePencilDoubleTap();
 
 applePencil.listen(
-    // For iPadOS <17.5 (legacy API)
+    // Before iPadOS 17.5 (legacy API)
     v1Callback: (PreferredAction preferredAction) {
         print('Double tap detected. Preferred user action: $preferredAction');
     },
@@ -77,7 +92,7 @@ applePencil.listen(
     },
 );
 
-// Don't forget to dispose when done
+// Call from your widget's dispose method when done
 applePencil.dispose();
 ```
 
@@ -182,6 +197,10 @@ Enum representing the user's preferred action as configured in iOS Settings.
 ## Example
 
 See the [example](example/) directory for a complete sample application demonstrating both double-tap and squeeze detection.
+
+## Topics
+
+`#apple-pencil` `#ipad` `#iphone-duo` `#stylus` `#gestures`
 
 ## Contributing
 

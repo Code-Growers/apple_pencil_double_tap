@@ -113,15 +113,14 @@ public class ApplePencilDoubleTapPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(
             name: channelName, binaryMessenger: registrar.messenger())
-        if UIDevice.current.userInterfaceIdiom == .pad {
-            pencilDelegate.setPencilChannel(channel: channel)
-            // A key window usually doesn't exist yet at registration time, so try
-            // to attach now and otherwise attach as soon as a window becomes key.
-            if !tryAttachPencilInteraction() {
-                windowObserver = NotificationCenter.default.addObserver(
-                    forName: UIWindow.didBecomeKeyNotification, object: nil, queue: .main
-                ) { _ in _ = tryAttachPencilInteraction() }
-            }
+        // Let UIKit determine gesture availability on iPad and iPhone.
+        pencilDelegate.setPencilChannel(channel: channel)
+        // A key window usually doesn't exist yet at registration time, so try
+        // to attach now and otherwise attach as soon as a window becomes key.
+        if !tryAttachPencilInteraction() {
+            windowObserver = NotificationCenter.default.addObserver(
+                forName: UIWindow.didBecomeKeyNotification, object: nil, queue: .main
+            ) { _ in _ = tryAttachPencilInteraction() }
         }
     }
 

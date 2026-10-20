@@ -1,13 +1,19 @@
 name: apple_pencil_double_tap
-description: A Flutter plugin for detecting Apple Pencil interactions including double-tap and squeeze gestures on iPad.
-version: 1.0.2
+description: Flutter Apple Pencil double-tap and squeeze events on compatible iPads, with iPhone Duo compatibility and hardware-specific gesture availability.
+version: 2.0.0
 repository: https://github.com/Code-Growers/apple_pencil_double_tap
 issue_tracker: https://github.com/Code-Growers/apple_pencil_double_tap/issues
 homepage: https://codegrowers.tech
+topics:
+  - apple-pencil
+  - ipad
+  - iphone-duo
+  - stylus
+  - gestures
 
 environment:
-  sdk: ">=3.10.0 <4.0.0"
-  flutter: ">=3.38.0"
+  sdk: ">=3.13.0 <4.0.0"
+  flutter: ">=3.47.0"
 
 dependencies:
   flutter:

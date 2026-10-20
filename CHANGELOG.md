@@ -1,3 +1,15 @@
+## 2.0.0
+
+**Breaking changes:** minimum Dart SDK is now 3.13.0 and minimum Flutter is 3.47.0. Minimum iOS/iPadOS is now 15.0.
+
+- Remove the iPad-only device check from both CocoaPods and Swift Package Manager implementations, allowing UIKit interaction registration on iPhone, including iPhone Duo.
+- Update the package description and pub.dev topics for Apple Pencil, iPad, iPhone Duo, stylus, and gestures.
+- Document that iPhone Duo's announced Apple Pencil (USB-C) support does not provide double-tap or squeeze gestures. No iPhone Duo hardware testing is claimed.
+- Add public API documentation and enable the `public_member_api_docs` lint.
+- Export `PreferredAction` from the main library for simpler imports.
+- Update Swift Package Manager dependencies for current Flutter integration.
+- Align CocoaPods and Swift Package Manager deployment targets and update the example's SDK constraints and lint dependency.
+
 ## 1.0.2
 
 - Fix issues with newest flutter

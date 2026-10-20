@@ -1,16 +1,9 @@
-# apple_pencil_double_tap_example
+# Apple Pencil gesture example
 
-Demonstrates how to use the apple_pencil_double_tap plugin.
+Requires Dart 3.13+, Flutter 3.47+, and iOS/iPadOS 15+.
 
-## Getting Started
+Run `flutter pub get`, then `flutter run` on a supported device. The example logs double-tap events and Apple Pencil Pro squeeze phases. Apple Pencil (2nd generation) supports double-tap; Apple Pencil Pro supports both gestures, with squeeze requiring iPadOS 17.5+.
 
-This project is a starting point for a Flutter application.
+The app can also be included on iPhone Duo, but its announced Apple Pencil (USB-C) support provides neither double-tap nor squeeze. No gesture events are expected there. The simulator can validate compilation but cannot reproduce physical Pencil gestures.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The listener is registered in `initState` and removed in `dispose`. See the [package README](../README.md) for device compatibility and the full API.
